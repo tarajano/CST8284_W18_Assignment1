@@ -23,7 +23,7 @@ public class FileUtils {
 				ois.close();
 			} catch (IOException | ClassNotFoundException e) {} 
 		}
-		else 
+		else
 			qaAr = null;
 	}
 	

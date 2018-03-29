@@ -14,8 +14,6 @@ public class QA extends QARequirements {
   private String[] answers;    
   private boolean result;
   
-  public QA() {}
-  
   public QA(  String question, String[] answers,
               String category, String explanation, 
               int difficulty, int points, int correctAnswer){
@@ -107,5 +105,10 @@ public class QA extends QARequirements {
   public void setResult(boolean b) {
     this.result = b;
   }
+  
+//  @Override
+//  public String toString() {
+//    String str = "";
+//  }
 
 }
