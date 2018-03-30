@@ -2,7 +2,10 @@ package cst8284.triviatime;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.paint.Color;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -31,7 +34,24 @@ public class TriviaTimeLaunch extends Application {
 	//  TODO: build setRootPane(String), where the String is the logo in the Splashscreen
 	//  You rootPane needs to be correctly set up so it can be loaded into the Scene
 	//  using getRootPane(), as indicated in the code above
+	public static void setRootPane(String logo) {
+	  rootPane = new BorderPane();
+	  rootPane.setStyle("-fx-font: 15px \"Trebuchet MS\"; -fx-type:sans-serif; -fx-stroke:black; -fx-stroke-width:1;");
+	  rootPane.setCenter(setLogo(logo));
+	  // TODO maybe set lsft, right, bottom
+	}
 	
-    //  TODO: build getRootPane(), which returns the rootPane stored in the variable declared above
+  // : build getRootPane(), which returns the rootPane stored in the variable declared above
+	public static BorderPane getRootPane() {
+	  return rootPane;
+	}
+	
+	private static Text setLogo(String text) {
+    Text t = new Text();
+    t.setFill(Color.BLUE);
+    t.setText(text);
+    t.setFont(Font.font(null, FontWeight.BOLD, 32));
+    return t;
+	}
 		
 }
