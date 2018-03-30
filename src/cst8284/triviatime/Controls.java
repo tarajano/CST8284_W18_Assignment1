@@ -31,10 +31,7 @@ public class Controls {
 	public static MenuBar getMenuBar(Stage primaryStage) {
 	  MenuBar mnuBar = new MenuBar();
 	  
-//	  Menu holderMenu = new Menu("Holder");
-//	  MenuItem mnuAbout = getMnuItmAbout();
-//	  MenuItem mnuExit = getMnuItmExit();
-//	  holderMenu.getItems().addAll(mnuAbout,mnuExit);
+	  setStage(primaryStage);
 	  
 	  mnuBar.getMenus().addAll(getMnuFile(), getMnuSettings(), getMnuHelp());
 	  return mnuBar;
@@ -67,10 +64,6 @@ public class Controls {
 	}
 	
 	/***************** MenuItems *****************/
-  private static MenuItem getMnuItmPlaceHolder(String name) {
-    mnuItm = new MenuItem(name);
-    return mnuItm;
-  }
 	
 	// TODO: design a method called getMnuItmNewGame() that returns a New Game MenuItem
 	// Clicking this menu item causes a new .triv to be opened
@@ -80,16 +73,27 @@ public class Controls {
   private static MenuItem getMnuItmNewGame() {
     /* From Marco Jakob, code.makery, */
     /* http://code.makery.ch/blog/javafx-dialogs-official/ */
+    
     mnuItm = new MenuItem("New Game");
     mnuItm.setOnAction((ActionEvent e) -> {
+      Stage pStage = getStage(); 
+      BorderPane bp = (BorderPane) pStage.getScene().getRoot();
       
-      QA[] qaA = getQATriviaFileArray();
+      VBox qaVBox = new VBox();
+      qaVBox.setSpacing(5);
       
+      QA[] qaArray = getQATriviaFileArray();
+      
+      for (QA qa : qaArray) {
+        QAPane qaPane = new QAPane(qa);
+        qaVBox.getChildren().addAll(qaPane.getQuestionPane(qa.getQuestion()), 
+                                    qaPane.getAnswerPane(qa.getAnswers()) );
+        bp.setCenter(qaVBox);
+        currentQuestion++;
+      }      
       
     });
-    return mnuItm;
-    
-    
+    return mnuItm; 
   }
 	
 	// : design a method that return the Exit MenuItem
@@ -115,7 +119,7 @@ public class Controls {
 		return mnuItm;
 	}
 	
-	private static void setStage(Stage s) {stage= s;}
+	private static void setStage(Stage s) {stage=s;}
 	private static Stage getStage() {return stage;}
 	
     // TODO: design a method getNextQuestionPane() that returns an HBox 
@@ -124,7 +128,7 @@ public class Controls {
 	
 	private static QA[] getQATriviaFileArray() {
     String absPath = "/Dropbox/Dropbox/eclipse-workspace/CST8284_W18_Assignment1/src/cst8284/triviatime/triviaQAFiles/ComputerTrivia_Java100.trivia";
-    int numObjects = 7;
+    int numObjects = 1;
     FileUtils.setQAArray(absPath, numObjects);
     return FileUtils.getQAArray();
 	}
