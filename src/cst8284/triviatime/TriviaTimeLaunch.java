@@ -38,7 +38,11 @@ public class TriviaTimeLaunch extends Application {
 	  rootPane = new BorderPane();
 	  rootPane.setStyle("-fx-font: 15px \"Trebuchet MS\"; -fx-type:sans-serif; -fx-stroke:black; -fx-stroke-width:1;");
 	  rootPane.setCenter(setLogo(logo));
-	  // TODO maybe set lsft, right, bottom
+	  // Not sure if code below keep buffer boxes as desired
+	  rootPane.setLeft(new VBox(100) );
+	  rootPane.setRight(new VBox(100) );
+	  rootPane.setBottom(new HBox(50) );
+	  rootPane.setTop(new HBox(50) );
 	}
 	
   // : build getRootPane(), which returns the rootPane stored in the variable declared above
