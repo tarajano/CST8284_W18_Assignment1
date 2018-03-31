@@ -89,17 +89,7 @@ public class Controls {
       
       qaArray = getQATriviaFileArray();
 
-      bp.setCenter(setNxtQPane());
-      
-//      for (QA qa : qaArray) {
-//        QAPane qaPane = new QAPane(qa);
-//        qaVBox.getChildren().addAll(qaPane.getQuestionPane(qa.getQuestion()), 
-//                                    qaPane.getAnswerPane(qa.getAnswers()),
-//                                    getNextQuestionPane());
-//        bp.setCenter(qaVBox);
-//        currentQuestion++;
-//      }
-      
+      bp.setCenter(setNxtQPane());    
       
     });
     return mnuItm; 
@@ -144,15 +134,8 @@ public class Controls {
 	}
 
 	private static VBox setNxtQPane() {
-	  VBox vbox = new VBox();
-    vbox.setSpacing(5);
-    
-    QA qa = qaArray[currentQuestion];
-    qaPane = new QAPane(qa);
-    vbox.getChildren().addAll(qaPane.getQuestionPane(qa.getQuestion()), 
-                                qaPane.getAnswerPane(qa.getAnswers()),
-                                getNextQuestionPane());
-	  return vbox;
+    qaPane = new QAPane(qaArray[currentQuestion]);
+    return qaPane.getQAPane();
 	}
 	
 	private static class NxtQBtnHndlr implements EventHandler<ActionEvent>{

@@ -31,7 +31,7 @@ public class QAPane {
 //     VBox questionVBox = this.getSingleStringVBox(qa.getQuestion());
 //     VBox answersVBox = this.getAnswerPane(qa.getAnswers());
 //     VBox explanationVBox = this.getSingleStringVBox(qa.getExplanation());
-     
+     this.setQAPane(configQAPaneVBox(qa));
      //qaPane.getChildren().addAll(questionVBox,answersVBox,explanationVBox);
      //qaPane.getChildren().addAll(answersVBox);
    }
@@ -65,11 +65,17 @@ public class QAPane {
      return vbox;
    }
    
-   public VBox getSingleStringVBox(String string) { // maybe this method must be private
+   public VBox getRightAnswerPane(String question) { // maybe this method must be private
      VBox vbox = new VBox();
-     vbox.getChildren().add( this.setTxt(string) );
+     vbox.getChildren().add( this.setTxt(question) );
      return vbox;
    }
+   
+//   public VBox getSingleStringVBox(String string) { // maybe this method must be private
+//     VBox vbox = new VBox();
+//     vbox.getChildren().add( this.setTxt(string) );
+//     return vbox;
+//   }
    
    private Text setTxt(String text) {
      Text t = new Text();
@@ -96,4 +102,14 @@ public class QAPane {
 	
    private void setQAPane(VBox vb) {this.qaPane = vb;}
    public VBox getQAPane() {return qaPane;}
+   
+   private VBox configQAPaneVBox(QA qa) {
+     VBox vbox = new VBox();
+     vbox.setSpacing(5);
+     vbox.getChildren().addAll(this.getQuestionPane(qa.getQuestion()), 
+         this.getAnswerPane(qa.getAnswers()),
+         Controls.getNextQuestionPane());
+     return vbox;
+   }
+   
 }
