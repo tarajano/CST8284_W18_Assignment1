@@ -42,7 +42,7 @@ public class TriviaTimeLaunch extends Application {
 	  rootPane.setLeft(new VBox(100) );
 	  rootPane.setRight(new VBox(100) );
 	  rootPane.setBottom(new HBox(50) );
-	  rootPane.setTop(new HBox(50) );
+	  rootPane.setTop(new HBox(50) ); 
 	}
 	
   // : build getRootPane(), which returns the rootPane stored in the variable declared above

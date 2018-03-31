@@ -30,9 +30,6 @@ public class TestingClass {
     for (QA qa : myQAArray)
       System.out.println(qa.getQuestion());
     
-    
-    
-    
   }
 
 }
