@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -15,6 +16,7 @@ import javafx.scene.text.Text;
 public class QAPane {
    private RadioButton[] rbAr;
    private VBox qaPane;
+   ToggleGroup radioBtnGroup;
    
    // TODO: Add a QAPane constructor that takes as an argument QA object. The object's
    // should be used to load the question and potential answer into the center pane
@@ -40,7 +42,7 @@ public class QAPane {
    // each radio button into a toggle group.  Again, see the Assignment 1 document
    // for details
    public VBox getAnswerPane(String[] answers) { // maybe this method must be private
-     ToggleGroup radioBtnGroup = new ToggleGroup();
+     radioBtnGroup = new ToggleGroup();
      VBox vbox = new VBox();
      VBox btnvbox = new VBox();
      btnvbox.setSpacing(5);
@@ -52,7 +54,9 @@ public class QAPane {
        btnvbox.getChildren().add(rb);
      }
      vbox.getChildren().add(btnvbox);
+     
      return vbox;
+     
    }
    
    public VBox getQuestionPane(String question) { // maybe this method must be private
@@ -79,6 +83,16 @@ public class QAPane {
    // TODO write a method getRadioButtonSelected() that returns the number of the 
    // radio button selected.  One way to do this is to loop through each radio button
    // in the radio button array and test if isSelected() is set
+   public int getRadioButtonSelected() {
+     int i = 1;
+     for(Toggle t : radioBtnGroup.getToggles()) {
+       RadioButton rb = (RadioButton) t;
+       if ( rb.isSelected() )
+         return i;
+       i++;
+     }
+     return 0;
+   }
 	
    private void setQAPane(VBox vb) {this.qaPane = vb;}
    public VBox getQAPane() {return qaPane;}
