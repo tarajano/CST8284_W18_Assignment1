@@ -19,7 +19,8 @@ import javafx.scene.text.Text;
 public class QAPane {
    private RadioButton[] rbAr;
    private VBox qaPane;
-   ToggleGroup radioBtnGroup;
+   private ToggleGroup radioBtnGroup;
+   private QA qa;
    
    // TODO: Add a QAPane constructor that takes as an argument QA object. The object's
    // should be used to load the question and potential answer into the center pane
@@ -30,8 +31,12 @@ public class QAPane {
    // See the Assignment 1 document for details on implementing the button handler
    // for this method
    public QAPane(QA qa) {
+     this.setQA(qa);
      this.setQAPane(configQAPaneVBox(qa));
    }
+   
+   private void setQA(QA qa) {this.qa = qa;}
+   private QA getQA(QA qa) {return this.qa;}
 
    // TODO: write a method getAnswerPane() that takes as arguments an array of Strings
    // corresponding to the array of answers returned by getAnswers() and returns
@@ -125,8 +130,7 @@ public class QAPane {
        this.disableRadioBtns();
        this.disableAnwserBtn();
        this.enableNxtQBtn();
-       // Show feedback
-       // Enable nxtQbtn
+       this.getAnwserFeedBack();
      }
      
      private void disableRadioBtns() {
@@ -145,8 +149,13 @@ public class QAPane {
       hb.getChildren().get(0).setDisable(false);
     }
     
-    private void getAwnserFeedBack() {
-      
+    private void getAnwserFeedBack() {
+      Text txt;
+      if(qa.getCorrectAnswerNumber() == getRadioButtonSelected()) {
+        qaPane.getChildren().add(new Text("That's correct!"));
+      }else{
+        qaPane.getChildren().add(new Text("That's incorrect! " + qa.getExplanation() ));
+      }
     }
      
    }
