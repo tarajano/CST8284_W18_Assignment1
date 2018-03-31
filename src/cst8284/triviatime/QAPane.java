@@ -1,5 +1,8 @@
 package cst8284.triviatime;
 
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -27,13 +30,7 @@ public class QAPane {
    // See the Assignment 1 document for details on implementing the button handler
    // for this method
    public QAPane(QA qa) {
-     
-//     VBox questionVBox = this.getSingleStringVBox(qa.getQuestion());
-//     VBox answersVBox = this.getAnswerPane(qa.getAnswers());
-//     VBox explanationVBox = this.getSingleStringVBox(qa.getExplanation());
      this.setQAPane(configQAPaneVBox(qa));
-     //qaPane.getChildren().addAll(questionVBox,answersVBox,explanationVBox);
-     //qaPane.getChildren().addAll(answersVBox);
    }
 
    // TODO: write a method getAnswerPane() that takes as arguments an array of Strings
@@ -107,9 +104,53 @@ public class QAPane {
      VBox vbox = new VBox();
      vbox.setSpacing(5);
      vbox.getChildren().addAll(this.getQuestionPane(qa.getQuestion()), 
-         this.getAnswerPane(qa.getAnswers()),
-         Controls.getNextQuestionPane());
+                               this.getAnswerPane(qa.getAnswers()),
+                               this.getThatsMyAnswerBtn(),
+                               Controls.getNextQuestionPane());
      return vbox;
    }
+
+   private HBox getThatsMyAnswerBtn() {
+     HBox btnBox = new HBox();  
+     Button btn = new Button("That's my answer");
+     btn.setOnAction(new ThatsMyAnswerBtnHndlr());
+     btnBox.getChildren().add(btn);
+     return btnBox;
+   }
    
+   private class ThatsMyAnswerBtnHndlr implements EventHandler<ActionEvent>{
+     @Override
+     public void handle(ActionEvent e){
+       // TODO
+       this.disableRadioBtns();
+       this.disableAnwserBtn();
+       this.enableNxtQBtn();
+       // Show feedback
+       // Enable nxtQbtn
+     }
+     
+     private void disableRadioBtns() {
+       for(Toggle t : radioBtnGroup.getToggles()) {
+         RadioButton rb = (RadioButton) t;
+         rb.setDisable(true);
+       }
+    }
+     
+    private void disableAnwserBtn() {
+      qaPane.getChildren().get(2).setDisable(true);
+    }
+    
+    private void enableNxtQBtn() {
+      HBox hb = (HBox) qaPane.getChildren().get(3);
+      hb.getChildren().get(0).setDisable(false);
+    }
+    
+    private void getAwnserFeedBack() {
+      
+    }
+     
+   }
+
+
+    
 }

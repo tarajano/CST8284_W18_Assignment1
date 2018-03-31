@@ -10,6 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Toggle;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -127,15 +129,11 @@ public class Controls {
 	public static HBox getNextQuestionPane() {
 	  HBox btnNxtQHBox = new HBox();  
     Button btnNxtQ = new Button("Next Question");
+    btnNxtQ.setDisable(true);
     btnNxtQ.setOnAction(new NxtQBtnHndlr());
     
     btnNxtQHBox.getChildren().add(btnNxtQ);
     return btnNxtQHBox;
-	}
-
-	private static VBox setNxtQPane() {
-    qaPane = new QAPane(qaArray[currentQuestion]);
-    return qaPane.getQAPane();
 	}
 	
 	private static class NxtQBtnHndlr implements EventHandler<ActionEvent>{
@@ -152,8 +150,13 @@ public class Controls {
 	    
 	    bp.setCenter(setNxtQPane());
 	  }
-	}  
+	}
 	
+  private static VBox setNxtQPane() {
+    qaPane = new QAPane(qaArray[currentQuestion]);
+    return qaPane.getQAPane();
+  }
+  
 	private static QA[] getQATriviaFileArray() {
     FileUtils.setQAArray(getAbsPath(), getNumObjects());
     return FileUtils.getQAArray();
@@ -166,5 +169,5 @@ public class Controls {
 	private static int getNumObjects() {
 	  return numObjects;
 	}
-	
+
 }
