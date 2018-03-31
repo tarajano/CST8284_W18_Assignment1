@@ -2,6 +2,7 @@ package cst8284.triviatime;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -23,7 +24,14 @@ public class Controls {
 	
 	private static Stage stage;
 	private static int currentQuestion = 0;
-
+	
+	private static QA[] qaArray;
+	private static BorderPane bp;
+	private static QAPane qaPane;
+	
+	private static String absPath = "/Dropbox/Dropbox/eclipse-workspace/CST8284_W18_Assignment1/src/cst8284/triviatime/triviaQAFiles/ComputerTrivia_Java100.trivia";
+  private static int numObjects = 7;
+  
 	/***************** MenuBar *****************/
  
 	// : design a method getMenuBar() that returns a MenuBar,
@@ -77,20 +85,21 @@ public class Controls {
     mnuItm = new MenuItem("New Game");
     mnuItm.setOnAction((ActionEvent e) -> {
       Stage pStage = getStage(); 
-      BorderPane bp = (BorderPane) pStage.getScene().getRoot();
+      bp = (BorderPane) pStage.getScene().getRoot();
       
-      VBox qaVBox = new VBox();
-      qaVBox.setSpacing(5);
+      qaArray = getQATriviaFileArray();
+
+      bp.setCenter(setNxtQPane());
       
-      QA[] qaArray = getQATriviaFileArray();
+//      for (QA qa : qaArray) {
+//        QAPane qaPane = new QAPane(qa);
+//        qaVBox.getChildren().addAll(qaPane.getQuestionPane(qa.getQuestion()), 
+//                                    qaPane.getAnswerPane(qa.getAnswers()),
+//                                    getNextQuestionPane());
+//        bp.setCenter(qaVBox);
+//        currentQuestion++;
+//      }
       
-      for (QA qa : qaArray) {
-        QAPane qaPane = new QAPane(qa);
-        qaVBox.getChildren().addAll(qaPane.getQuestionPane(qa.getQuestion()), 
-                                    qaPane.getAnswerPane(qa.getAnswers()) );
-        bp.setCenter(qaVBox);
-        currentQuestion++;
-      }      
       
     });
     return mnuItm; 
@@ -125,12 +134,54 @@ public class Controls {
     // TODO: design a method getNextQuestionPane() that returns an HBox 
     // containing the 'Next Question' button, along with the code need to 
 	// advance to the next question using the currentQuestion variable above
+	public static HBox getNextQuestionPane() {
+	  HBox btnNxtQHBox = new HBox();  
+    Button btnNxtQ = new Button("Next Question");
+    btnNxtQ.setOnAction(new NxtQBtnHndlr());
+    
+    btnNxtQHBox.getChildren().add(btnNxtQ);
+    return btnNxtQHBox;
+	}
+
+	private static VBox setNxtQPane() {
+	  VBox vbox = new VBox();
+    vbox.setSpacing(5);
+    
+    QA qa = qaArray[currentQuestion];
+    qaPane = new QAPane(qa);
+    vbox.getChildren().addAll(qaPane.getQuestionPane(qa.getQuestion()), 
+                                qaPane.getAnswerPane(qa.getAnswers()),
+                                getNextQuestionPane());
+	  return vbox;
+	}
+	
+	private static class NxtQBtnHndlr implements EventHandler<ActionEvent>{
+	  @Override
+	  public void handle(ActionEvent e){
+	    currentQuestion++;
+	    
+	    // TODO handle properly last question
+	    // omit NextQButton
+	    // Trigger statistics report
+	    System.out.println( "prev-selected: " + qaPane.getRadioButtonSelected());
+	    if (currentQuestion == getNumObjects())
+	      Platform.exit();
+	    
+	    bp.setCenter(setNxtQPane());
+	  }
+	}  
 	
 	private static QA[] getQATriviaFileArray() {
-    String absPath = "/Dropbox/Dropbox/eclipse-workspace/CST8284_W18_Assignment1/src/cst8284/triviatime/triviaQAFiles/ComputerTrivia_Java100.trivia";
-    int numObjects = 1;
-    FileUtils.setQAArray(absPath, numObjects);
+    FileUtils.setQAArray(getAbsPath(), getNumObjects());
     return FileUtils.getQAArray();
+	}
+
+	 private static String getAbsPath() {
+	    return absPath;
+	  }
+	 
+	private static int getNumObjects() {
+	  return numObjects;
 	}
 	
 }
