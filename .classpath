@@ -5,6 +5,6 @@
 			<accessrule kind="accessible" pattern="javafx/**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry excluding="cst8284/triviatime/triviaQAFiles/" kind="src" path="src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

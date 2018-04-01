@@ -1,36 +1,28 @@
 package cst8284.triviatime;
 
-import javax.swing.event.ChangeListener;
-
-import javafx.application.Platform;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class QAPane {
-   private RadioButton[] rbAr;
    private VBox qaPane;
    private ToggleGroup radioBtnGroup;
    private QA qa;
+   private VBox vbox;
    
    // : Add a QAPane constructor that takes as an argument QA object. The object's
    // should be used to load the question and potential answer into the center pane
    // along with radio buttons next to each answer.
-   // TODO Rather than use the default font,
+   //  Rather than use the default font,
    // your output will look considerably better is you use the .setStyle() method
    // to improve the look of the user interface.
    // See the Assignment 1 document for details on implementing the button handler
@@ -41,7 +33,8 @@ public class QAPane {
    }
    
    private void setQA(QA qa) {this.qa = qa;}
-   private QA getQA(QA qa) {return this.qa;}
+   private void setQAPane(VBox vb) {this.qaPane = vb;}
+   public VBox getQAPane() {return qaPane;}
 
    // : write a method getAnswerPane() that takes as arguments an array of Strings
    // corresponding to the array of answers returned by getAnswers() and returns
@@ -50,9 +43,9 @@ public class QAPane {
    // for details
    public VBox getAnswerPane(String[] answers) { // maybe this method must be private
      radioBtnGroup = new ToggleGroup();
-     VBox vbox = new VBox();
-     VBox btnvbox = new VBox();
-     btnvbox.setSpacing(5);
+     vbox = new VBox();
+     VBox btnvBox = new VBox();
+     btnvBox.setSpacing(5);
      RadioButton rb;
      
      for (String answer : answers) {
@@ -64,40 +57,25 @@ public class QAPane {
            HBox hb = (HBox) qaPane.getChildren().get(2);
            hb.getChildren().get(0).setDisable(false);
           }
-       } );
-       btnvbox.getChildren().add(rb);
+       });
+       btnvBox.getChildren().add(rb);
      }
      
-     vbox.getChildren().add(btnvbox);
+     vbox.getChildren().add(btnvBox);
      return vbox;
    }
    
    public VBox getQuestionPane(String question) { // maybe this method must be private
-     VBox vbox = new VBox();
-     vbox.getChildren().add( this.setTxt(question) );
+     vbox = new VBox();
+     vbox.getChildren().add( new Text(question) );
      return vbox;
    }
    
    public VBox getRightAnswerPane(String question) { // maybe this method must be private
-     VBox vbox = new VBox();
-     vbox.getChildren().add( this.setTxt(question) );
+     vbox = new VBox();
+     vbox.getChildren().add( new Text(question) );
      return vbox;
    }
-   
-//   public VBox getSingleStringVBox(String string) { // maybe this method must be private
-//     VBox vbox = new VBox();
-//     vbox.getChildren().add( this.setTxt(string) );
-//     return vbox;
-//   }
-   
-   private Text setTxt(String text) {
-     Text t = new Text();
-//   t.setFill(Color.BLUE);
-//   t.setFont(Font.font(null, FontWeight.BOLD, 32));
-     t.setText(text);
-     return t;
-   }
-   
    
    // write a method getRadioButtonSelected() that returns the number of the 
    // radio button selected.  One way to do this is to loop through each radio button
@@ -113,25 +91,19 @@ public class QAPane {
      return 0;
    }
 	
-   private void setQAPane(VBox vb) {this.qaPane = vb;}
-   public VBox getQAPane() {return qaPane;}
-   
    private VBox configQAPaneVBox(QA qa) {
      VBox vbox = new VBox();
      vbox.setAlignment(Pos.CENTER);
-//     vbox.setStyle("-fx-border-color:red; -fx-border-width:3; -fx-border-style:dashed;");
      vbox.setSpacing(5);
      vbox.getChildren().addAll(this.getQuestionPane(qa.getQuestion()), 
                                this.getAnswerPane(qa.getAnswers()),
                                this.getThatsMyAnswerBtn(),
                                Controls.getNextQuestionPane());
-     
-     // Create hbox for buttons alone
+     // TODO Create hbox for buttons alone
 //     HBox btnsBox = new HBox();
 //     btnsBox.getChildren().addAll(this.getThatsMyAnswerBtn(), Controls.getNextQuestionPane());
 //     vbox.getChildren().addAll(this.getQuestionPane(qa.getQuestion()), 
 //                               this.getAnswerPane(qa.getAnswers()), btnsBox);
-
      return vbox;
    }
 
@@ -165,8 +137,6 @@ public class QAPane {
          @Override
          public void handle(ActionEvent arg0) {
            btn.setDisable(true);
-           Results.setQuizResultSummary();
-           // TODO get the scene and paint only with results
            Stage pStage = Controls.getStage(); 
            BorderPane bp = (BorderPane) pStage.getScene().getRoot();
            bp.setCenter(Results.getQuizResultSummaryBox());
@@ -182,9 +152,7 @@ public class QAPane {
        }
     }
      
-    private void disableAnwserBtn(boolean b) {
-      qaPane.getChildren().get(2).setDisable(b);
-    }
+    private void disableAnwserBtn(boolean b) {qaPane.getChildren().get(2).setDisable(b);}
     
     private void disableNxtQBtn(boolean b) {
       HBox hb = (HBox) qaPane.getChildren().get(3);
@@ -192,9 +160,9 @@ public class QAPane {
     }
     
     private void getAnwserFeedBack() {
-      if(qa.getCorrectAnswerNumber() == getRadioButtonSelected()) {
+      if (qa.getCorrectAnswerNumber() == getRadioButtonSelected()) {
         qaPane.getChildren().add(new Text("That's correct!"));
-        Results.scoreCurrQuest( Controls.getCurrentQuestionNumber() );
+        Results.scoreCurrQuestion( Controls.getCurrentQuestionNumber() );
       }else{
         qaPane.getChildren().add(new Text("That's incorrect! " + qa.getExplanation() ));
       }
