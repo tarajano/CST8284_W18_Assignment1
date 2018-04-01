@@ -32,7 +32,8 @@ public class Controls {
 	private static QAPane qaPane;
 	
 	private static String absPath = "/Dropbox/Dropbox/eclipse-workspace/CST8284_W18_Assignment1/src/cst8284/triviatime/triviaQAFiles/ComputerTrivia_Java100.trivia";
-  private static int numObjects = 7;
+  private static int numObjects = 3;
+  private static int numCorrectAnswers = 0;
   
 	/***************** MenuBar *****************/
  
@@ -84,14 +85,14 @@ public class Controls {
     /* From Marco Jakob, code.makery, */
     /* http://code.makery.ch/blog/javafx-dialogs-official/ */
     
-    mnuItm = new MenuItem("New Game");
+    mnuItm = new MenuItem("New Game"); // USE THIS TO BUILD results pane
     mnuItm.setOnAction((ActionEvent e) -> {
       Stage pStage = getStage(); 
       bp = (BorderPane) pStage.getScene().getRoot();
       
       qaArray = getQATriviaFileArray();
 
-      bp.setCenter(setNxtQPane());    
+      bp.setCenter(getNxtQPane());    
       
     });
     return mnuItm; 
@@ -121,7 +122,7 @@ public class Controls {
 	}
 	
 	private static void setStage(Stage s) {stage=s;}
-	private static Stage getStage() {return stage;}
+	public static Stage getStage() {return stage;}
 	
     // TODO: design a method getNextQuestionPane() that returns an HBox 
     // containing the 'Next Question' button, along with the code need to 
@@ -144,15 +145,14 @@ public class Controls {
 	    // TODO handle properly last question
 	    // omit NextQButton
 	    // Trigger statistics report
-	    System.out.println( "prev-selected: " + qaPane.getRadioButtonSelected());
-	    if (currentQuestion == getNumObjects())
-	      Platform.exit();
+	    if (currentQuestion >= getNumObjects())
+	      System.out.println("Correct answers: " + getNumOfCorrectAnswers() + " " + (getNumOfCorrectAnswers()*100/getNumOfQuestions()) + "%");
 	    
-	    bp.setCenter(setNxtQPane());
+	    bp.setCenter(getNxtQPane());
 	  }
 	}
 	
-  private static VBox setNxtQPane() {
+  private static VBox getNxtQPane() {
     qaPane = new QAPane(qaArray[currentQuestion]);
     return qaPane.getQAPane();
   }
@@ -170,4 +170,24 @@ public class Controls {
 	  return numObjects;
 	}
 
+  public static int getNumOfQuestions() {
+    return getNumObjects();
+  }
+
+  public static int getCurrentQuestionNumber() {
+    return currentQuestion;
+  }
+  
+  public static int getNumOfCorrectAnswers() {
+    return numCorrectAnswers;
+  }
+  
+  public static void incrementNumOfCorrectAnswers() {
+    setNumOfCorrectAnswers(getNumOfCorrectAnswers() + 1);
+  }
+  
+  private static void setNumOfCorrectAnswers(int n) {
+    numCorrectAnswers = n;
+  }
+  
 }
