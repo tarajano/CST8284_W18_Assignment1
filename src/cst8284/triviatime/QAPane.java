@@ -118,11 +118,20 @@ public class QAPane {
    
    private VBox configQAPaneVBox(QA qa) {
      VBox vbox = new VBox();
+     vbox.setAlignment(Pos.CENTER);
+//     vbox.setStyle("-fx-border-color:red; -fx-border-width:3; -fx-border-style:dashed;");
      vbox.setSpacing(5);
      vbox.getChildren().addAll(this.getQuestionPane(qa.getQuestion()), 
                                this.getAnswerPane(qa.getAnswers()),
                                this.getThatsMyAnswerBtn(),
                                Controls.getNextQuestionPane());
+     
+     // Create hbox for buttons alone
+//     HBox btnsBox = new HBox();
+//     btnsBox.getChildren().addAll(this.getThatsMyAnswerBtn(), Controls.getNextQuestionPane());
+//     vbox.getChildren().addAll(this.getQuestionPane(qa.getQuestion()), 
+//                               this.getAnswerPane(qa.getAnswers()), btnsBox);
+
      return vbox;
    }
 
@@ -155,17 +164,15 @@ public class QAPane {
        btn.setOnAction(new EventHandler<ActionEvent>() {
          @Override
          public void handle(ActionEvent arg0) {
-           Stage pStage = Controls.getStage();
+           btn.setDisable(true);
+           Results.setQuizResultSummary();
+           // TODO get the scene and paint only with results
+           Stage pStage = Controls.getStage(); 
            BorderPane bp = (BorderPane) pStage.getScene().getRoot();
-           bp.setCenter(getPieChartResults()); 
-           ;
+           bp.setCenter(Results.getQuizResultSummaryBox());
+           //qaPane.getChildren().add(Results.getQuizResultSummaryBox()); // TODO fix/center position of results pane
           }
        });
-     }
-     
-     private HBox getPieChartResults() {
-       Results rp = new Results( Controls.getNumOfCorrectAnswers(), Controls.getNumOfQuestions() );
-       return rp.getResultsPane();
      }
      
      private void disableRadioBtns(boolean b) {
@@ -187,7 +194,7 @@ public class QAPane {
     private void getAnwserFeedBack() {
       if(qa.getCorrectAnswerNumber() == getRadioButtonSelected()) {
         qaPane.getChildren().add(new Text("That's correct!"));
-        Controls.incrementNumOfCorrectAnswers();
+        Results.scoreCurrQuest( Controls.getCurrentQuestionNumber() );
       }else{
         qaPane.getChildren().add(new Text("That's incorrect! " + qa.getExplanation() ));
       }

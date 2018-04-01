@@ -89,10 +89,10 @@ public class Controls {
       Stage pStage = getStage(); 
       bp = (BorderPane) pStage.getScene().getRoot();
       
-      // TODO resetGame();
+      resetGame();
       qaArray = getQATriviaFileArray();
-
-      bp.setCenter(getNxtQPane());    
+      
+      bp.setCenter(getNxtQPane());
       
     });
     return mnuItm; 
@@ -121,12 +121,13 @@ public class Controls {
 		return mnuItm;
 	}
 	
-	private void resetGame() {
-	  // TODO call methods to reset
+	private static void resetGame() {
+	  resetQuestionNumber();
+	  Results.resetAnswersResults();
 	}
 	
-	private void resetQuestionNumber() {
-	  // TODO  
+	private static void resetQuestionNumber() {
+	  currentQuestion = 0;
 	}
 	
 	private static void setStage(Stage s) {stage=s;}

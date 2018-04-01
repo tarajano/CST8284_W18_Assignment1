@@ -1,11 +1,14 @@
 package cst8284.triviatime;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -36,11 +39,12 @@ public class TriviaTimeLaunch extends Application {
 	//  using getRootPane(), as indicated in the code above
 	public static void setRootPane(String logo) {
 	  rootPane = new BorderPane();
-	  rootPane.setStyle("-fx-font: 15px \"Trebuchet MS\"; -fx-type:sans-serif; -fx-stroke:black; -fx-stroke-width:1;");
+	  String rootPaneCSSStyle = "-fx-font: 15px \"Trebuchet MS\"; -fx-type:sans-serif; -fx-stroke:black; -fx-stroke-width:1;";
+	  rootPane.setStyle(rootPaneCSSStyle);
 	  rootPane.setCenter(setLogo(logo));
-	  // Not sure if code below keep buffer boxes as desired
-	  rootPane.setLeft(new VBox(100) );
-	  rootPane.setRight(new VBox(100) );
+	  
+	  rootPane.setLeft(new VBox(100));
+	  rootPane.setRight(new VBox(100));
 	  rootPane.setBottom(new HBox(50) );
 	  rootPane.setTop(new HBox(50) ); 
 	}
