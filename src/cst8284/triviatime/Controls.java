@@ -33,7 +33,6 @@ public class Controls {
 	
 	private static String absPath = "/Dropbox/Dropbox/eclipse-workspace/CST8284_W18_Assignment1/src/cst8284/triviatime/triviaQAFiles/ComputerTrivia_Java100.trivia";
   private static int numObjects = 3;
-  private static int numCorrectAnswers = 0;
   
 	/***************** MenuBar *****************/
  
@@ -90,6 +89,7 @@ public class Controls {
       Stage pStage = getStage(); 
       bp = (BorderPane) pStage.getScene().getRoot();
       
+      // TODO resetGame();
       qaArray = getQATriviaFileArray();
 
       bp.setCenter(getNxtQPane());    
@@ -121,6 +121,14 @@ public class Controls {
 		return mnuItm;
 	}
 	
+	private void resetGame() {
+	  // TODO call methods to reset
+	}
+	
+	private void resetQuestionNumber() {
+	  // TODO  
+	}
+	
 	private static void setStage(Stage s) {stage=s;}
 	public static Stage getStage() {return stage;}
 	
@@ -140,20 +148,20 @@ public class Controls {
 	private static class NxtQBtnHndlr implements EventHandler<ActionEvent>{
 	  @Override
 	  public void handle(ActionEvent e){
-	    currentQuestion++;
+	    incrementQuestionNumber();
 	    
 	    // TODO handle properly last question
 	    // omit NextQButton
 	    // Trigger statistics report
-	    if (currentQuestion >= getNumObjects())
-	      System.out.println("Correct answers: " + getNumOfCorrectAnswers() + " " + (getNumOfCorrectAnswers()*100/getNumOfQuestions()) + "%");
+//	    if (getCurrentQuestionNumber() >= getNumObjects())
+//	      System.out.println("Correct answers: " + getNumOfCorrectAnswers() + " " + (getNumOfCorrectAnswers()*100/getNumOfQuestions()) + "%");
 	    
 	    bp.setCenter(getNxtQPane());
 	  }
 	}
 	
   private static VBox getNxtQPane() {
-    qaPane = new QAPane(qaArray[currentQuestion]);
+    qaPane = new QAPane(qaArray[ getCurrentQuestionNumber() ]);
     return qaPane.getQAPane();
   }
   
@@ -178,16 +186,12 @@ public class Controls {
     return currentQuestion;
   }
   
-  public static int getNumOfCorrectAnswers() {
-    return numCorrectAnswers;
+  private static int incrementQuestionNumber() {
+    return currentQuestion+=1;
   }
   
-  public static void incrementNumOfCorrectAnswers() {
-    setNumOfCorrectAnswers(getNumOfCorrectAnswers() + 1);
-  }
-  
-  private static void setNumOfCorrectAnswers(int n) {
-    numCorrectAnswers = n;
+  public static BorderPane getBorderPane() {
+    return bp;
   }
   
 }
