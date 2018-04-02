@@ -1,8 +1,5 @@
 package cst8284.triviatime;
 
-import javafx.stage.Stage;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

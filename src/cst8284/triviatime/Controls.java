@@ -30,6 +30,7 @@ public class Controls {
 	private static QAPane qaPane;
 	
 	private static String absPath = "/Dropbox/Dropbox/eclipse-workspace/CST8284_W18_Assignment1/src/cst8284/triviatime/triviaQAFiles/ComputerTrivia_Java100.trivia";
+	//private static String absPath = "C:\\TriviaTime\\ComputerTrivia_Java100.trivia";
   private static int numObjects = 7;
   
 	/***************** MenuBar *****************/
