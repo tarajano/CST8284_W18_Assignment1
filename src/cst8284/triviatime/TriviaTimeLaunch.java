@@ -1,6 +1,8 @@
 package cst8284.triviatime;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -40,10 +42,10 @@ public class TriviaTimeLaunch extends Application {
 	  rootPane.setStyle(rootPaneCSSStyle);
 	  rootPane.setCenter(setLogo(logo));
 	  
-	  rootPane.setLeft(new VBox(100));
-	  rootPane.setRight(new VBox(100));
-	  rootPane.setBottom(new HBox(50) );
-	  rootPane.setTop(new HBox(50) ); 
+//	  rootPane.setLeft(new VBox(100));
+//	  rootPane.setRight(new VBox(100));
+//	  rootPane.setBottom(new HBox(50) );
+//	  rootPane.setTop(new HBox(50) ); 
 	}
 	
   // : build getRootPane(), which returns the rootPane stored in the variable declared above

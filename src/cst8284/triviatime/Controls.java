@@ -3,6 +3,7 @@ package cst8284.triviatime;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -81,7 +82,7 @@ public class Controls {
       bp = (BorderPane) pStage.getScene().getRoot();
       resetGame();
       setQAArray();
-      bp.setCenter(getNxtQPane());
+      setNxtPane();
     });
     return mnuItm; 
   }
@@ -132,7 +133,7 @@ public class Controls {
       @Override
       public void handle(ActionEvent e){
         incrementQuestionNumber();
-        bp.setCenter(getNxtQPane());
+        setNxtPane();
       }
     });
     btnNxtQHBox.getChildren().add(btnNxtQ);
@@ -155,10 +156,12 @@ public class Controls {
   private static void setQAArray() {qaArray = getQATriviaFileArray();}
   public static int getCurrentQuestionNumber() {return currentQuestion;}
   private static int incrementQuestionNumber() {return currentQuestion+=1;}
-  
-//private static BorderPane getBorderPane() {
-//  return bp;
-//}
+
+  private static void setNxtPane() {
+    VBox nxtPane = getNxtQPane(); 
+    bp.setCenter(nxtPane);
+    BorderPane.setAlignment(nxtPane, Pos.CENTER );
+  }
   
   
 }
