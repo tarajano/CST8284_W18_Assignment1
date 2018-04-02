@@ -22,7 +22,6 @@ public class Results {
   private static VBox textSummaryBox;
   private static int[] answersResults = new int[Controls.getNumOfQuestions()];
   
-  
   private static VBox getTextSummaryBox() {return textSummaryBox;}  
   private static HBox getPieChartBox() {return pieChartBox;}
   private static int getNumQuestions() {return Controls.getNumOfQuestions();}
@@ -58,8 +57,8 @@ public class Results {
   private static ObservableList<Data> getChartData(int okQ, int totQ) {
     // http://www.java2s.com/Tutorials/Java/JavaFX/0810__JavaFX_Pie_Chart.htm
     ObservableList<Data> answer = FXCollections.observableArrayList();  
-    answer.addAll(new PieChart.Data("Correct", okQ),
-                  new PieChart.Data("Incorrect", totQ - okQ));
+    answer.addAll(new PieChart.Data("Incorrect", totQ - okQ),
+                  new PieChart.Data("Correct", okQ));
     return answer;
   }
   
@@ -74,5 +73,6 @@ public class Results {
     for (int i=0; i < answersResults.length; i++)
       answersResults[i]=0;
   }
+
   
 }

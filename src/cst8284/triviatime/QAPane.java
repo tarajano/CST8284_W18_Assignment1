@@ -2,8 +2,10 @@ package cst8284.triviatime;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
@@ -136,8 +138,12 @@ public class QAPane {
            btn.setDisable(true);
            Stage pStage = Controls.getStage(); 
            BorderPane bp = (BorderPane) pStage.getScene().getRoot();
-           bp.setCenter(Results.getQuizResultSummaryBox());
-           //qaPane.getChildren().add(Results.getQuizResultSummaryBox()); // TODO fix/center position of results pane
+           HBox hb = Results.getQuizResultSummaryBox();
+           bp.setCenter(hb);
+           BorderPane.setMargin(hb, new Insets(10, 10, 10, 50) );
+           // TODO activate Print result MenuItem
+           MenuItem mnuItm = Controls.getMnuItmPrintResults();
+           mnuItm.setDisable(false);
           }
        });
      }

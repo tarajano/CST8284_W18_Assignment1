@@ -4,7 +4,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.print.PrinterJob;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -30,7 +30,7 @@ public class Controls {
 	private static QAPane qaPane;
 	
 	private static String absPath = "/Dropbox/Dropbox/eclipse-workspace/CST8284_W18_Assignment1/src/cst8284/triviatime/triviaQAFiles/ComputerTrivia_Java100.trivia";
-  private static int numObjects = 3;
+  private static int numObjects = 7;
   
 	/***************** MenuBar *****************/
  
@@ -87,7 +87,18 @@ public class Controls {
     });
     return mnuItm; 
   }
-	
+  
+  public static MenuItem getMnuItmPrintResults() {
+    /* From Marco Jakob, code.makery, */
+    /* http://code.makery.ch/blog/javafx-dialogs-official/ */
+    mnuItm = new MenuItem("Print results");
+    mnuItm.setDisable(true);
+    mnuItm.setOnAction((ActionEvent e) -> {
+      printResults((HBox) bp.getChildren().get(0));
+    });
+    return mnuItm; 
+  }
+  
 	// : design a method that return the Exit MenuItem
   private static MenuItem getMnuItmExit() {
     /* From Marco Jakob, code.makery, */
@@ -164,5 +175,13 @@ public class Controls {
     BorderPane.setMargin(nxtPane, new Insets(10, 10, 10, 200) );
   }
   
-  
+  public static void printResults(HBox node) {
+    PrinterJob job = PrinterJob.createPrinterJob();
+    if (job != null) {
+       boolean success = job.showPrintDialog(null);
+       if (success) {
+           job.endJob();
+       }
+    }    
+  }
 }
