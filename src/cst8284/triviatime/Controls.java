@@ -3,6 +3,7 @@ package cst8284.triviatime;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -160,7 +161,7 @@ public class Controls {
   private static void setNxtPane() {
     VBox nxtPane = getNxtQPane(); 
     bp.setCenter(nxtPane);
-    BorderPane.setAlignment(nxtPane, Pos.CENTER );
+    BorderPane.setMargin(nxtPane, new Insets(10, 10, 10, 200) );
   }
   
   
