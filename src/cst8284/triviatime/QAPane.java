@@ -41,7 +41,7 @@ public class QAPane {
    // a VBox loaded with radio buttons next to each string.  You'll need to load
    // each radio button into a toggle group.  Again, see the Assignment 1 document
    // for details
-   public VBox getAnswerPane(String[] answers) { // maybe this method must be private
+   private VBox insertAnswerPane(String[] answers) {
      radioBtnGroup = new ToggleGroup();
      vbox = new VBox();
      VBox btnvBox = new VBox();
@@ -54,8 +54,8 @@ public class QAPane {
        rb.setOnAction(new EventHandler<ActionEvent>() {
          @Override
          public void handle(ActionEvent arg0) {
-           HBox hb = (HBox) qaPane.getChildren().get(2);
-           hb.getChildren().get(0).setDisable(false);
+           HBox hb = (HBox) qaPane.getChildren().get(3); // (TODO use this.disableAnswerBtn(false) ) get thats my answer btn
+           hb.getChildren().get(0).setDisable(false);    // activate thats my answer  btn
           }
        });
        btnvBox.getChildren().add(rb);
@@ -65,17 +65,17 @@ public class QAPane {
      return vbox;
    }
    
-   public VBox getQuestionPane(String question) { // maybe this method must be private
+   private VBox insertQuestionPane(String question) {
      vbox = new VBox();
-     vbox.getChildren().add( new Text(question) );
+     vbox.getChildren().add(new Text(question));
      return vbox;
    }
    
-   public VBox getRightAnswerPane(String question) { // maybe this method must be private
-     vbox = new VBox();
-     vbox.getChildren().add( new Text(question) );
-     return vbox;
-   }
+//   private VBox getRightAnswerPane(String question) { // TODO check arg name consitency maybe this method must be private
+//     vbox = new VBox();
+//     vbox.getChildren().add(new Text(question)) ;
+//     return vbox;
+//   }
    
    // write a method getRadioButtonSelected() that returns the number of the 
    // radio button selected.  One way to do this is to loop through each radio button
@@ -95,25 +95,28 @@ public class QAPane {
      VBox vbox = new VBox();
      vbox.setAlignment(Pos.CENTER);
      vbox.setSpacing(5);
-     vbox.getChildren().addAll(this.getQuestionPane(qa.getQuestion()), 
-                               this.getAnswerPane(qa.getAnswers()),
-                               this.getThatsMyAnswerBtn(),
-                               Controls.getNextQuestionPane());
+//     vbox.getChildren().addAll(this.insertQuestionPane(qa.getQuestion()), 
+//                               this.insertAnswerPane(qa.getAnswers()),
+//                               this.getThatsMyAnswerBtn(),
+//                               Controls.getNextQuestionPane());
      // TODO Create hbox for buttons alone
-//     HBox btnsBox = new HBox();
-//     btnsBox.getChildren().addAll(this.getThatsMyAnswerBtn(), Controls.getNextQuestionPane());
-//     vbox.getChildren().addAll(this.getQuestionPane(qa.getQuestion()), 
-//                               this.getAnswerPane(qa.getAnswers()), btnsBox);
+     HBox btnsBox = new HBox();
+     btnsBox.getChildren().addAll(this.insertThatsMyAnswerBtn(), // this is a Button 
+                                  Controls.getNextQuestionPane() // this is an HBox.Button
+                                  );
+     
+     vbox.getChildren().addAll(this.insertQuestionPane(qa.getQuestion()), 
+                               this.insertAnswerPane(qa.getAnswers()),
+                               new HBox(), // Placeholder for feedback
+                               btnsBox);
      return vbox;
    }
 
-   private HBox getThatsMyAnswerBtn() {
-     HBox btnBox = new HBox();  
+   private Button insertThatsMyAnswerBtn() {  
      Button btn = new Button("That's my answer");
      btn.setDisable(true);
      btn.setOnAction(new ThatsMyAnswerBtnHndlr());
-     btnBox.getChildren().add(btn);
-     return btnBox;
+     return btn;
    }
    
    private class ThatsMyAnswerBtnHndlr implements EventHandler<ActionEvent>{
@@ -125,12 +128,13 @@ public class QAPane {
          this.disableNxtQBtn(false);
        else
          this.setShowResultsBtn();
-       this.getAnwserFeedBack();
+       this.insertAnswerFeedBack();
      }
      
      private void setShowResultsBtn() {
-       HBox hb = (HBox) qaPane.getChildren().get(3);
-       Button btn = (Button) hb.getChildren().get(0);
+       HBox hbOuter = (HBox) qaPane.getChildren().get(3); // outer Box
+       HBox hbInner = (HBox) hbOuter.getChildren().get(1);
+       Button btn = (Button) hbInner.getChildren().get(0);
        btn.setText("Show results");
        btn.setDisable(false);
        btn.setOnAction(new EventHandler<ActionEvent>() {
@@ -152,19 +156,26 @@ public class QAPane {
        }
     }
      
-    private void disableAnwserBtn(boolean b) {qaPane.getChildren().get(2).setDisable(b);}
-    
-    private void disableNxtQBtn(boolean b) {
+    private void disableAnwserBtn(boolean b) {
       HBox hb = (HBox) qaPane.getChildren().get(3);
-      hb.getChildren().get(0).setDisable(b);
+      Button btn = (Button) hb.getChildren().get(0);
+      btn.setDisable(b);
     }
     
-    private void getAnwserFeedBack() {
+    private void disableNxtQBtn(boolean b) {
+      HBox hbOuter = (HBox) qaPane.getChildren().get(3); // outer Box
+      HBox hbInner = (HBox) hbOuter.getChildren().get(1);
+      Button btn = (Button) hbInner.getChildren().get(0);
+      btn.setDisable(b);
+    }
+    
+    private void insertAnswerFeedBack() {
+      HBox hb = (HBox) qaPane.getChildren().get(2);
       if (qa.getCorrectAnswerNumber() == getRadioButtonSelected()) {
-        qaPane.getChildren().add(new Text("That's correct!"));
+        hb.getChildren().add(new Text("That's correct!"));
         Results.scoreCurrQuestion( Controls.getCurrentQuestionNumber() );
       }else{
-        qaPane.getChildren().add(new Text("That's incorrect! " + qa.getExplanation() ));
+        hb.getChildren().add(new Text("That's incorrect! " + qa.getExplanation() ));
       }
     }
      
