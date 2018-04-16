@@ -30,7 +30,7 @@ public class Controls {
 	private static QAPane qaPane;
 	
 	private static String absPath = "/Dropbox/Dropbox/eclipse-workspace/CST8284_W18_Assignment1/src/cst8284/triviatime/triviaQAFiles/ComputerTrivia_Java100.trivia";
-	//private static String absPath = "C:\\TriviaTime\\ComputerTrivia_Java100.trivia";
+	//private static String absPath = "C:/TriviaTime/ComputerTrivia_Java100.trivia";
   private static int numObjects = 7;
   
 	/***************** MenuBar *****************/
@@ -82,22 +82,34 @@ public class Controls {
     mnuItm.setOnAction((ActionEvent e) -> {
       Stage pStage = getStage(); 
       bp = (BorderPane) pStage.getScene().getRoot();
-      resetGame();
       setQAArray();
+      resetGame();
       setNxtPane();
     });
     return mnuItm; 
   }
   
+  // Menu Item to print result's scene.
   public static MenuItem getMnuItmPrintResults() {
-    /* From Marco Jakob, code.makery, */
-    /* http://code.makery.ch/blog/javafx-dialogs-official/ */
+    // TODO Printing works, but I need to figure out
+    // how to activate "Print results" ONLY after 
+    // results are ready.
     mnuItm = new MenuItem("Print results");
     mnuItm.setDisable(true);
     mnuItm.setOnAction((ActionEvent e) -> {
       printResults((HBox) bp.getChildren().get(0));
     });
     return mnuItm; 
+  }
+  
+  public static void printResults(HBox node) {
+    PrinterJob job = PrinterJob.createPrinterJob();
+    if (job != null) {
+       boolean success = job.showPrintDialog(null);
+       if (success) {
+           job.endJob();
+       }
+    }    
   }
   
 	// : design a method that return the Exit MenuItem
@@ -123,15 +135,21 @@ public class Controls {
 		return mnuItm;
 	}
 	
+	// In case the user wants to play again,
+	// resetGame() resets:
+	// result=false for QA[], and
+	// currentQuestion=0
 	private static void resetGame() {
+	  resetAnswersResults();
 	  resetQuestionNumber();
-	  Results.resetAnswersResults();
 	}
 	
-	private static void resetQuestionNumber() {
-	  currentQuestion = 0;
+	private static void resetAnswersResults() {
+    for( QA qa :  getQAArray() )
+      qa.setResult(false);
 	}
 	
+	private static void resetQuestionNumber() {currentQuestion = 0;}
 	private static void setStage(Stage s) {stage=s;}
 	public static Stage getStage() {return stage;}
 	
@@ -157,8 +175,13 @@ public class Controls {
     qaPane = new QAPane(qaArray[ getCurrentQuestionNumber() ]);
     return qaPane.getQAPane();
   }
+
+  public static QA[] getQAArray() {
+    return qaArray ;
+  }
   
-	private static QA[] getQATriviaFileArray() {
+  // To load QA objects from file
+	private static QA[] getQAArrayFromTriviaFile() {
     FileUtils.setQAArray(getAbsPath(), getNumObjects());
     return FileUtils.getQAArray();
 	}
@@ -166,7 +189,7 @@ public class Controls {
 	private static String getAbsPath() {return absPath;}
 	private static int getNumObjects() {return numObjects;}
   public static int getNumOfQuestions() {return getNumObjects();}
-  private static void setQAArray() {qaArray = getQATriviaFileArray();}
+  private static void setQAArray() {qaArray = getQAArrayFromTriviaFile();}
   public static int getCurrentQuestionNumber() {return currentQuestion;}
   private static int incrementQuestionNumber() {return currentQuestion+=1;}
 
@@ -174,15 +197,5 @@ public class Controls {
     VBox nxtPane = getNxtQPane(); 
     bp.setCenter(nxtPane);
     BorderPane.setMargin(nxtPane, new Insets(10, 10, 10, 200) );
-  }
-  
-  public static void printResults(HBox node) {
-    PrinterJob job = PrinterJob.createPrinterJob();
-    if (job != null) {
-       boolean success = job.showPrintDialog(null);
-       if (success) {
-           job.endJob();
-       }
-    }    
   }
 }

@@ -105,10 +105,5 @@ public class QA extends QARequirements {
   public void setResult(boolean b) {
     this.result = b;
   }
-  
-//  @Override
-//  public String toString() {
-//    String str = "";
-//  }
 
 }

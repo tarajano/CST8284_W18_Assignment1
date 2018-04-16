@@ -91,10 +91,10 @@ public class QAPane {
      VBox vbox = new VBox();
      vbox.setAlignment(Pos.CENTER);
      vbox.setSpacing(5);
-     vbox.getChildren().addAll(this.insertQuestionPane(qa.getQuestion()), 
-                               this.insertAnswerPane(qa.getAnswers()),
-                               new HBox(), // Placeholder for feedback
-                               this.insertButtonsBox());
+     vbox.getChildren().addAll(this.insertQuestionPane(qa.getQuestion()), // Question
+                               this.insertAnswerPane(qa.getAnswers()),    // Answers
+                               new HBox(),                                // Placeholder for feedback
+                               this.insertButtonsBox());                  // Buttons
      return vbox;
    }
    
@@ -127,8 +127,8 @@ public class QAPane {
      }
      
      private void setShowResultsBtn() {
-       HBox hbOuter = (HBox) qaPane.getChildren().get(3);  // The showResults button
-       HBox hbInner = (HBox) hbOuter.getChildren().get(1); // is contained inside 
+       HBox hbOuter = (HBox) qaPane.getChildren().get(3);  // Fetching the showResults button,
+       HBox hbInner = (HBox) hbOuter.getChildren().get(1); // which is contained inside 
        Button btn = (Button) hbInner.getChildren().get(0); // two HBoxes: HBox<-Hbox<-Button 
        btn.setText("Show results");
        btn.setDisable(false);
@@ -141,7 +141,8 @@ public class QAPane {
            HBox hb = Results.getQuizResultSummaryBox();
            bp.setCenter(hb);
            BorderPane.setMargin(hb, new Insets(10, 10, 10, 50) );
-           // TODO activate Print result MenuItem
+           // TODO Figure out how to activate "Print Result" MenuItem 
+           // ONLY once results are shown.
            MenuItem mnuItm = Controls.getMnuItmPrintResults();
            mnuItm.setDisable(false);
           }
@@ -162,20 +163,26 @@ public class QAPane {
     }
     
     private void disableNxtQBtn(boolean b) {
-      HBox hbOuter = (HBox) qaPane.getChildren().get(3); // outer Box
+      HBox hbOuter = (HBox) qaPane.getChildren().get(3);
       HBox hbInner = (HBox) hbOuter.getChildren().get(1);
       Button btn = (Button) hbInner.getChildren().get(0);
       btn.setDisable(b);
     }
     
+    // Will fill the feedback's placeholder with the explanation,
+    // and the feedback (Correct/Incorrect)  
     private void insertAnswerFeedBack() {
       HBox hb = (HBox) qaPane.getChildren().get(2);
-      if (qa.getCorrectAnswerNumber() == getRadioButtonSelected()) {
-        hb.getChildren().add(new Text("That's correct!"));
-        Results.scoreCurrQuestion( Controls.getCurrentQuestionNumber() );
+      if (isAnswerRight()) {
+        qa.setResult(true);
+        hb.getChildren().add(new Text("That's correct! " + qa.getExplanation() ));
       }else{
-        hb.getChildren().add(new Text("That's incorrect! " + qa.getExplanation() ));
+        hb.getChildren().add(new Text("Sorry, that's incorrect. " + qa.getExplanation() ));
       }
+    }
+    
+    private boolean isAnswerRight() {
+      return (qa.getCorrectAnswerNumber() == getRadioButtonSelected()) ? true : false; 
     }
      
    }

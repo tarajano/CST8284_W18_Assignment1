@@ -37,16 +37,12 @@ public class TriviaTimeLaunch extends Application {
 	  String rootPaneCSSStyle = "-fx-font: 15px \"Trebuchet MS\"; -fx-type:sans-serif; -fx-stroke:black; -fx-stroke-width:1; -fx-background-color:#e5f5e0;";
 	  rootPane.setStyle(rootPaneCSSStyle);
 	  rootPane.setCenter(setLogo(logo));
-	  
-//	  rootPane.setLeft(new VBox(100));
-//	  rootPane.setRight(new VBox(100));
-//	  rootPane.setBottom(new HBox(50) );
-//	  rootPane.setTop(new HBox(50) ); 
 	}
 	
   // : build getRootPane(), which returns the rootPane stored in the variable declared above
 	public static BorderPane getRootPane() {return rootPane;}
 	
+	// Styling the logo string
 	private static Text setLogo(String text) {
     Text t = new Text();
     t.setFill(Color.BLUE);
